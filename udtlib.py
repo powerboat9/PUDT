@@ -19,7 +19,7 @@ def getNumFromB32(char):
         raise ValueError()
     ret = (string.lowercase + "234567").find(char)
     if ret == -1:
-        raise ValueError()
+        raise ValueError("Could not translate " + char)
     return ret
 
 def getSigOut(n):
@@ -30,7 +30,7 @@ def getSigOut(n):
 def transmit(data):
     if data == None or (not isinstance(data, (bytes, bytearray))):
         raise Exception("Invalid transmision data")
-    dataEncoded = base64.b32encode(data).replace(b"=", "")
+    dataEncoded = base64.b32encode(data).replace(b"=", b"")
     freqList = bytearray()
     for char in dataEncoded:
         freqList.append(getSigOut(getNumFromB32(char)))
