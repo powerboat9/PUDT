@@ -16,7 +16,7 @@ def setRange(mn, mx):
 
 def getNumFromB32(char):
     if char == None or (not isinstance(char, str)) or (char.length > 1):
-        raise ValueError()
+        raise ValueError("Not a 1 char string")
     ret = (string.lowercase + "234567").find(char)
     if ret == -1:
         raise ValueError("Could not translate " + char)
@@ -32,7 +32,7 @@ def transmit(data):
         raise Exception("Invalid transmision data")
     dataEncoded = base64.b32encode(data).replace(b"=", b"")
     freqList = bytearray()
-    for char in dataEncoded:
+    for char in dataEncoded.decode("UTF-8"):
         freqList.append(getSigOut(getNumFromB32(char)))
     transmitSound = pygame.mixer.Sound(freqList)
     transmitSound.play()
