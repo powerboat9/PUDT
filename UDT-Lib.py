@@ -8,6 +8,12 @@ BIN_SIZE = UPPER_LIMIT - LOWER_LIMIT / 32
 SECTION_PER_TRANSMIT = 3
 SECTION_SIZE = TRANSMIT_SIZE / SECTION_PER_TRANSMIT
 
+def setRange(mn, mx):
+    if mn == None || !isinstance(mn, int) || mx == None || !isinstance(mx, int):
+        raise ValueError()
+    LOWER_LIMIT = 400
+    UPPER_LIMIT = 600
+
 def getNumFromB32(char):
     if char == None || !isinstance(char, str) || (char.length > 1):
         raise ValueError()
