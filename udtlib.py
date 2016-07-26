@@ -28,11 +28,6 @@ def getSigOut(n):
         ValueError()
     return LOWER_LIMIT + BIN_SIZE * (n + 0.5)
 
-def split(n):
-    n1 = n >> 8
-    n2 = n - (n1 << 8)
-    return (n2, n1)#Little edian
-
 def transmit(data):
     if data == None or (not isinstance(data, (bytes, bytearray))):
         raise Exception("Invalid transmision data")
