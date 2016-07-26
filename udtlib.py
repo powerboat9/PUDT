@@ -1,4 +1,4 @@
-import wave, pygame, base64, string, time
+import wave, pygame, base64, string, time, plysnd
 
 TRANSMIT_SIZE = 100
 LOWER_LIMIT = 17000
@@ -28,11 +28,11 @@ def getSigOut(n):
         ValueError()
     return LOWER_LIMIT + BIN_SIZE * (n + 0.5)
 
-def transmit(data):
+def transmit(data, doWait):
     if data == None or (not isinstance(data, (bytes, bytearray))):
         raise Exception("Invalid transmision data")
     dataEncoded = base64.b32encode(data).replace(b"=", b"")
-    freqList = bytearray()
+    freqList = ()
     for char in dataEncoded.decode("UTF-8"):
-        v = getSigOut(getNumFromB32(char))
-    
+        freqList[len(freqList)] = getSigOut(getNumFromB32(char))
+    plysnd.play(plysnd.getData(freqList, TRANSMIT_SIZE), doWait)
