@@ -21,7 +21,8 @@ def getData(freqList, miliSecs):
         samplesPerFreq = np.floor(numSamples / (secs * freq))#numSamples / (secs / freq)
         for sample in range(numSamples):
             v = 32767 * np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
-            print(v)
+            #print(v)
+            print(sample / numSamples)
             data[(freqN + 1) * (sample + 1) - 1] = v
     return data.tobytes()
 
