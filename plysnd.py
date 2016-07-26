@@ -1,5 +1,11 @@
 import pygame
 
+def getData(freqList, miliSecs, sampleRatePerSec):
+    nSamples = freqList.length * miliSecs * sampleRatePerSec / 1000
+    data = chararray()
+    for n in range(nSamples):
+        data.append(
+
 def play(data, doWait):
     if v == None:
         pygame.mixer.init()
