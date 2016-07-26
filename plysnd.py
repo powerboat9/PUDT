@@ -1,5 +1,7 @@
 import pygame
 
+SAMPLE_RATE = None
+
 def getData(freqList, miliSecs, sampleRatePerSec):
     nSamples = freqList.length * miliSecs * sampleRatePerSec / 1000
     data = chararray()
