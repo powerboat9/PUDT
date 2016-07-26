@@ -14,16 +14,33 @@ def setSampleRate(n):
 def getData(freqList, miliSecs):
     arrayLen = int(np.floor(len(freqList) * miliSecs / 1000 * SAMPLE_RATE))
     data = np.zeros(arrayLen, dtype=np.int16)
-    for freqN in range(len(freqList)):
+    dataInsert = 0
+    freqL = len(freqList)
+    for freqN in range(freqL):
         freq = freqList[freqN]
         secs = miliSecs / 1000
         numSamples = int(np.floor(secs * SAMPLE_RATE))
-        samplesPerFreq = np.floor(numSamples / (secs * freq))#numSamples / (secs / freq)
-        for sample in range(numSamples):
-            v = 32767 * np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
-            #print(v)
-            print(sample / numSamples)
-            data[(freqN + 1) * (sample + 1) - 1] = v
+        samplesPerFreq = int(np.floor(numSamples / (secs * freq)))#numSamples / (secs / freq)
+        tempData = np.zeros(samplesPerFreq, dtype=np.int16)
+        copySpots = range(dataInsert, dataInsert + numSamples, samplesPerFreq)
+        for i in range(samplesPerFreq):
+            v = 32767 * np.sin(math.pi * 2 * (i / samplesPerFreq))
+            tempData[i] = v
+            print("Generated tone part {} of {} for tone {} of {}".format(i + 1, samplesPerFreq, freqN + 1, freqL))
+        numFreqIters = int(np.floor(secs * freq))
+        tempDataL = len(tempData)
+        cp = range(dataInsert, dataInsert + numSamples, samplesPerFreq)
+        data = np.insert(data, cp, tempData)
+        #for i in range(numFreqIters):
+        #    for j in range(tempDataL):
+        #        data[dataInsert + i * tempDataL + j] = tempData[j]
+        #        print("Writing tone {} of {} ({}%)".format(freqN + 1, freqL, ((i + 1) / numFreqIters) * ((j + 1) / tempDataL)))
+        dataInsert += numSamples
+        #for sample in range(numSamples):
+        #    v = 32767 * np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
+        #    #print(v)
+        #    print(sample / numSamples)
+        #    data[(freqN + 1) * (sample + 1) - 1] = v
     return data.tobytes()
 
 def play(data, doWait):
