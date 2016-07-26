@@ -1,4 +1,4 @@
-import pygame, math
+import pygame, math, time
 import numpy as np
 
 SAMPLE_RATE = 192000
@@ -12,23 +12,27 @@ def setSampleRate(n):
     SAMPLE_RATE = n
 
 def getData(freqList, miliSecs):
-    arrayLen = len(freqList) * miliSecs / 1000 * SAMPLE_RATE
+    arrayLen = int(np.floor(len(freqList) * miliSecs / 1000 * SAMPLE_RATE))
     data = np.zeros(arrayLen, dtype=np.int16)
     for freqN in range(len(freqList)):
         freq = freqList[freqN]
         secs = miliSecs / 1000
-        numSamples = np.floor(secs * SAMPLE_RATE)
+        numSamples = int(np.floor(secs * SAMPLE_RATE))
         samplesPerFreq = np.floor(numSamples / (secs * freq))#numSamples / (secs / freq)
         for sample in range(numSamples):
-            v = np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
+            v = 32767 * np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
+            print(v)
             data[(freqN + 1) * (sample + 1) - 1] = v
     return data.tobytes()
 
 def play(data, doWait):
+    v = pygame.mixer.get_init()
     if v == None:
         pygame.mixer.init(frequency = 192000)
         v = pygame.mixer.get_init()
     transmitSound = pygame.mixer.Sound(data)
     transmitSound.play()
     if doWait:
-        time.sleep(transmitSound.get_length())
+        t = transmitSound.get_length()
+        print(t)
+        time.sleep(t)

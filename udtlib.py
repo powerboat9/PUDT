@@ -1,4 +1,4 @@
-import wave, pygame, base64, string, time, plysnd
+import wave, base64, string, plysnd
 
 TRANSMIT_SIZE = 100
 LOWER_LIMIT = 17000

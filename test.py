@@ -1,3 +1,4 @@
 import udtlib as udt
+import plysnd
 
-udt.transmit(b"I have a cat with a cute voice")
+plysnd.play(plysnd.getData((16000,), 100000), True)
