@@ -28,12 +28,17 @@ def getSigOut(n):
         ValueError()
     return LOWER_LIMIT + BIN_SIZE * (n + 0.5)
 
+def split(n):
+    n1 = n >> 8
+    n2 = n - (n1 << 8)
+    return (n2, n1)#Little edian
+
 def play(data, doWait):
     if v == None:
         pygame.mixer.init()
         v = pygame.mixer.get_init()
         SAMPLE_RATE = v[0]
-    transmitSound = pygame.mixer.Sound(freqList)
+    transmitSound = pygame.mixer.Sound(data)
     transmitSound.play()
     if doWait:
         time.sleep(transmitSound.get_length())
