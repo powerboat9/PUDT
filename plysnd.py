@@ -29,19 +29,7 @@ def getData(freqList, miliSecs):
         numFreqIters = int(np.floor(secs * freq))
         cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq, samplesPerFreq)
         data = np.insert(data, cp, tempData)
-        #for i in range(numFreqIters):
-        #    data = np.insert(data, dataInsert + i * samplesPerFreq, tempData)
-        #    print("Insertion {}%".format((i + 1) / numFreqIters * 100))
-        #for i in range(numFreqIters):
-        #    for j in range(tempDataL):
-        #        data[dataInsert + i * tempDataL + j] = tempData[j]
-        #        print("Writing tone {} of {} ({}%)".format(freqN + 1, freqL, ((i + 1) / numFreqIters) * ((j + 1) / tempDataL)))
         dataInsert += numSamples
-        #for sample in range(numSamples):
-        #    v = 32767 * np.sin(math.pi * 2 * ((sample % samplesPerFreq) / samplesPerFreq))
-        #    #print(v)
-        #    print(sample / numSamples)
-        #    data[(freqN + 1) * (sample + 1) - 1] = v
     return data.tobytes()
 
 def play(data, doWait):
