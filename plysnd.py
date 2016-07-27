@@ -27,7 +27,8 @@ def getData(freqList, miliSecs):
             tempData[i] = v
             print("Generated tone part {} of {} for tone {} of {}".format(i + 1, samplesPerFreq, freqN + 1, freqL))
         numFreqIters = int(np.floor(secs * freq))
-        cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq, samplesPerFreq)
+        cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq + 1, samplesPerFreq)
+        print("Inserting {} to {}".format(cp[0], cp[len(cp) - 1]))
         data = np.insert(data, cp, tempData)
         dataInsert += numSamples
     return data.tobytes()
