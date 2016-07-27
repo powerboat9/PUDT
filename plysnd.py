@@ -22,15 +22,16 @@ def getData(freqList, miliSecs):
         numSamples = int(np.floor(secs * SAMPLE_RATE))
         samplesPerFreq = int(np.floor(numSamples / (secs * freq)))#numSamples / (secs / freq)
         tempData = np.zeros(samplesPerFreq, dtype=np.int16)
-        copySpots = range(dataInsert, dataInsert + numSamples, samplesPerFreq)
         for i in range(samplesPerFreq):
             v = 32767 * np.sin(math.pi * 2 * (i / samplesPerFreq))
             tempData[i] = v
             print("Generated tone part {} of {} for tone {} of {}".format(i + 1, samplesPerFreq, freqN + 1, freqL))
         numFreqIters = int(np.floor(secs * freq))
-        tempDataL = len(tempData)
-        cp = range(dataInsert, dataInsert + numSamples, samplesPerFreq)
+        cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq, samplesPerFreq)
         data = np.insert(data, cp, tempData)
+        #for i in range(numFreqIters):
+        #    data = np.insert(data, dataInsert + i * samplesPerFreq, tempData)
+        #    print("Insertion {}%".format((i + 1) / numFreqIters * 100))
         #for i in range(numFreqIters):
         #    for j in range(tempDataL):
         #        data[dataInsert + i * tempDataL + j] = tempData[j]
