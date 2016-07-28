@@ -1,4 +1,5 @@
-import pygame, math, time
+import pygame, time
+from math import pi
 import numpy as np
 
 SAMPLE_RATE = 192000
@@ -20,25 +21,25 @@ def getData(freqList, miliSecs):
         freq = freqList[freqN]
         secs = miliSecs / 1000
         numSamples = int(np.floor(secs * SAMPLE_RATE))
-        samplesPerFreq = int(np.floor(numSamples / (secs * freq)))#numSamples / (secs / freq)
+        numFreqIters = int(np.floor(secs * freq))
+        samplesPerFreq = int(np.floor(numSamples / numFreqIters))#numSamples / (secs / freq)
         tempData = np.zeros(samplesPerFreq, dtype=np.int16)
         for i in range(samplesPerFreq):
-            v = 32767 * np.sin(math.pi * 2 * (i / samplesPerFreq))
+            v = 32767 * np.sin(pi * 2 * (i / samplesPerFreq))
             tempData[i] = v
             print("Generated tone part {} of {} for tone {} of {}".format(i + 1, samplesPerFreq, freqN + 1, freqL))
-        numFreqIters = int(np.floor(secs * freq))
-        cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq + 1, samplesPerFreq)
+        cp = range(dataInsert, dataInsert + (numFreqIters - 1) * samplesPerFreq, samplesPerFreq)
         print("Inserting {} to {}".format(cp[0], cp[len(cp) - 1]))
         data = np.insert(data, cp, tempData)
         dataInsert += numSamples
-    return data.tobytes()
+    return data
 
 def play(data, doWait):
     v = pygame.mixer.get_init()
     if v == None:
         pygame.mixer.init(frequency = 192000)
         v = pygame.mixer.get_init()
-    transmitSound = pygame.mixer.Sound(data)
+    transmitSound = pygame.mixer.Sound(data.tobytes())
     transmitSound.play()
     if doWait:
         t = transmitSound.get_length()
