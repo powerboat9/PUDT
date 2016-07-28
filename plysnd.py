@@ -12,6 +12,13 @@ def split(n):
 def setSampleRate(n):
     SAMPLE_RATE = n
 
+def genTonePattern(freq, secs, sampleRate=192000):
+    numSamples = int(np.floor(sampleRate * secs))
+    iters = int(np.floor(freq * secs))
+    timeToPlayIteration = 1 / freq
+    extraFractionIters = (secs % timeToPlayIteration) / timeToPlayIteration
+    data = 
+
 def getData(freqList, miliSecs):
     arrayLen = int(np.floor(len(freqList) * miliSecs / 1000 * SAMPLE_RATE))
     data = np.zeros(arrayLen, dtype=np.int16)
