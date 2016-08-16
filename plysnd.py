@@ -14,10 +14,12 @@ def setSampleRate(n):
 
 def genTonePattern(freq, secs, sampleRate=192000):
     numSamples = int(np.floor(sampleRate * secs))
-    iters = int(np.floor(freq * secs))
+    secs = numSamples / sampleRate
+    iters = freq * secs
     timeToPlayIteration = 1 / freq
-    extraFractionIters = (secs % timeToPlayIteration) / timeToPlayIteration
-    data = 
+    samplesPerFreq = 
+    data = np.empty(numSamples, dtype = np.int16)
+    for 
 
 def getData(freqList, miliSecs):
     arrayLen = int(np.floor(len(freqList) * miliSecs / 1000 * SAMPLE_RATE))
