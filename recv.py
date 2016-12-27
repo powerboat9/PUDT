@@ -8,8 +8,8 @@ class Portal(object):
         self.binsize = ([256, 128, 64, 32])[mode]
         if not self.binsize:
             raise AttributeException("Invalid mode")
-        callType = type(waitCallback)
-        if callType != "<class 'NoneType'>"
+        elif waitCallback != None and not callable(waitCallback):
+            raise AttributeException("Invalid callback")
         self.waitCallback = waitCallback
     def transmit(s):
         
